@@ -34,15 +34,19 @@ let jsInput;
 let jsDiv;
 let vDOM;
 
+//CAPITAL FIRST LETTER
+//standard in UI frameworks that when a function is acting
+//as a description of a relationship between underlying data.
+//example of one functional component
+function Input() {
+  return ["input", myName, function handle(e) {
+    myName = e.target.value;
+  }];
+}
+
 function createVDOM() {
   return [
-    [
-      "input",
-      myName,
-      function handle(e) {
-        myName = e.target.value;
-      },
-    ],
+    Input(),
     ["div", `Hello, ${myName}!`],
     ["div", `Como`],
     ["div", `Estas?`],
