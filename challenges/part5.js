@@ -1,17 +1,20 @@
-let myName = "";
+// let myName = "";
 let vDOM;
 let elems;
+let data = { myName: "" };
+let prevVDOM;
+let isFocus;
 
 function createVDOM() {
   return [
     [
       "input",
-      myName,
+      data.myName,
       function handle(e) {
-        myName = e.target.value;
+        updateData("myName", e.target.value); //"myName" > myName
       },
     ],
-    ["div", `Hello, ${myName}!`],
+    ["div", `Hello, ${data.myName}!`],
     ["div", `Great job, Jonathan!`],
     ["div", `Great job, Alexa!`],
     ["div", `Great job, Emilia!`],
@@ -19,10 +22,11 @@ function createVDOM() {
 }
 
 function updateDOM() {
-  if (vDOM)
+  if (vDOM) {
     document.activeElement == document.querySelector("input")
       ? (isFocus = true)
       : (isFocus = false); // keep this code
+  }
   vDOM = createVDOM();
   elems = vDOM.map(convert);
   document.body.replaceChildren(...elems);
@@ -37,12 +41,21 @@ function convert(node) {
   return element;
 }
 
-// function findDiff(prevVDOM, currentVDOM) {
-//     for (let i = 0; i < currentVDOM.length; i++) {
-//         if(JSON.stringify(prevVDOM[i]) !== JSON.stringify(currentVDOM[i])){
-//             // change the actual DOM element related to that vDOM element!
-//         }
-//     }
-// }
+function updateData(label, value) {
+  data[label] = value; //data[label] > data.label
+  updateDOM();
+}
 
-setInterval(updateDOM, 15);
+updateDOM();
+
+function findDiff(prevVDOM, currentVDOM) {
+  for (let i = 0; i < currentVDOM.length; i++) {
+    if (JSON.stringify(prevVDOM[i]) !== JSON.stringify(currentVDOM[i])) {
+      // change the actual DOM element related to that vDOM element!
+      elems[i].textContent = currentVDOM[i][1];
+      elems[i].value = currentVDOM[i][1];
+    }
+  }
+}
+
+//setInterval(updateDOM, 15);
