@@ -27,9 +27,16 @@ function updateDOM() {
       ? (isFocus = true)
       : (isFocus = false); // keep this code
   }
-  vDOM = createVDOM();
-  elems = vDOM.map(convert);
-  document.body.replaceChildren(...elems);
+  if (elems == undefined) {
+    vDOM = createVDOM();
+    elems = vDOM.map(convert);
+    document.body.append(...elems);
+  } else {
+    prevVDOM = [...vDOM];
+    vDOM = createVDOM();
+    findDiff(prevVDOM, vDOM);
+  }
+  //document.body.replaceChildren(...elems);
   if (isFocus) elems[0].focus(); //keep this code
 }
 
